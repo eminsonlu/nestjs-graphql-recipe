@@ -1,0 +1,43 @@
+import {
+  IsString,
+  IsOptional,
+  IsArray,
+  ArrayMinSize,
+  IsInt,
+  Min,
+  Max,
+  MaxLength,
+} from 'class-validator';
+
+export class UpdateRecipeDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(255, { message: 'Title cannot be longer than 255 characters' })
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(1000, {
+    message: 'Description cannot be longer than 1000 characters',
+  })
+  description?: string;
+
+  @IsOptional()
+  @IsArray({ message: 'Ingredients must be an array' })
+  @ArrayMinSize(1, { message: 'At least one ingredient is required' })
+  @IsString({ each: true, message: 'Each ingredient must be a string' })
+  ingredients?: string[];
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(5000, {
+    message: 'Instructions cannot be longer than 5000 characters',
+  })
+  instructions?: string;
+
+  @IsOptional()
+  @IsInt({ message: 'Cooking time must be an integer' })
+  @Min(1, { message: 'Cooking time must be at least 1 minute' })
+  @Max(1440, { message: 'Cooking time cannot exceed 24 hours (1440 minutes)' })
+  cookingTime?: number;
+}
