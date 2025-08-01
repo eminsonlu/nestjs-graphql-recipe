@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Recipe } from '../../models/recipe.model';
 import { CreateRecipeDto, UpdateRecipeDto } from './dto';
+import { User } from 'src/models/user.model';
 
 @Injectable()
 export class RecipeService {
@@ -11,23 +16,38 @@ export class RecipeService {
   ) {}
 
   async findAll(): Promise<Recipe[]> {
-    return this.recipeModel.findAll();
+    return this.recipeModel.findAll({
+      include: [User],
+    });
   }
 
   async findById(id: string): Promise<Recipe | null> {
-    return this.recipeModel.findByPk(id);
+    return this.recipeModel.findByPk(id, {
+      include: [User],
+    });
   }
 
-  async create(input: CreateRecipeDto): Promise<Recipe> {
-    const recipeData = { ...input };
-    return this.recipeModel.create(recipeData);
+  async create(input: CreateRecipeDto, userId: number): Promise<Recipe | null> {
+    const recipeData = { ...input, userId };
+    const recipe = await this.recipeModel.create(recipeData);
+    return this.recipeModel.findByPk(recipe.id, {
+      include: [User],
+    });
   }
 
-  async update(id: string, input: UpdateRecipeDto): Promise<Recipe> {
+  async update(
+    id: string,
+    input: UpdateRecipeDto,
+    userId: number,
+  ): Promise<Recipe | null> {
     const recipe = await this.recipeModel.findByPk(id);
 
     if (!recipe) {
       throw new NotFoundException(`Recipe with ID ${id} not found`);
+    }
+
+    if (recipe.userId !== userId) {
+      throw new ForbiddenException(`You are not allowed to update this recipe`);
     }
 
     const updateData: Partial<UpdateRecipeDto> = {};
@@ -43,10 +63,22 @@ export class RecipeService {
       updateData.cookingTime = input.cookingTime;
 
     await recipe.update(updateData);
-    return recipe;
+    return await this.recipeModel.findByPk(id, {
+      include: [User],
+    });
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string, userId: number): Promise<boolean> {
+    const recipe = await this.recipeModel.findByPk(id);
+
+    if (!recipe) {
+      throw new NotFoundException(`Recipe with ID ${id} not found`);
+    }
+
+    if (recipe.userId !== userId) {
+      throw new ForbiddenException(`You are not allowed to delete this recipe`);
+    }
+
     const deleted = await this.recipeModel.destroy({
       where: { id },
     });

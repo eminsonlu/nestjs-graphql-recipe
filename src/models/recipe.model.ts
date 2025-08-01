@@ -5,7 +5,10 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { User } from './user.model';
 
 @Table({
   tableName: 'recipes',
@@ -40,4 +43,11 @@ export class Recipe extends Model {
 
   @Column(DataType.STRING(500))
   declare imageUrl: string;
+
+  @ForeignKey(() => User)
+  @Column(DataType.INTEGER)
+  declare userId: number;
+
+  @BelongsTo(() => User)
+  declare user: User;
 }

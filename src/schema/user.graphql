@@ -1,0 +1,33 @@
+type User {
+    id: ID!,
+    name: String!
+    email: String!
+    role: String!
+    recipes: [Recipe!]
+    createdAt: String!
+}
+
+input RegisterInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+extend type Query {
+  me: User
+}
+
+extend type Mutation {
+  register(input: RegisterInput!): AuthPayload!
+  login(input: LoginInput!): AuthPayload!
+}
