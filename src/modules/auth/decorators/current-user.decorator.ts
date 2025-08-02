@@ -7,7 +7,7 @@ export interface GraphQLContext {
 }
 
 export const CurrentUser = createParamDecorator(
-  (data: unknown, context: ExecutionContext): User => {
+  (_data: unknown, context: ExecutionContext): User => {
     const ctx = GqlExecutionContext.create(context);
     const request = ctx.getContext<GraphQLContext>().req;
     return request.user;

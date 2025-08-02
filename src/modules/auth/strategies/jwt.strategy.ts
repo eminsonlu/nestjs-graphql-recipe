@@ -9,7 +9,7 @@ import { JwtPayload } from '../types';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private authService: AuthService,
-    private configService: ConfigService,
+    configService: ConfigService,
   ) {
     const secret =
       configService.get<string>('JWT_SECRET') || 'secret-key-too-long';

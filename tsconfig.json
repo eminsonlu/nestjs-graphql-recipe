@@ -7,7 +7,7 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
+    "strictPropertyInitialization": false, // setted to false because of we are using graphql schema first approach
     "noImplicitThis": true,
     "alwaysStrict": true,
 
