@@ -1,10 +1,10 @@
 type User {
-    id: ID!,
-    name: String!
-    email: String!
-    role: String!
-    recipes: [Recipe!]
-    createdAt: String!
+  id: ID!
+  name: String!
+  email: String!
+  role: String!
+  recipes: [Recipe!]
+  createdAt: String!
 }
 
 input RegisterInput {

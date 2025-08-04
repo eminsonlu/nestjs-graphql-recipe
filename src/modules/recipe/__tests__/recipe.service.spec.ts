@@ -5,6 +5,7 @@ import { User } from '../../../models/user.model';
 import { CreateRecipeDto, UpdateRecipeDto } from '../dto';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { Recipe } from '../../../models/recipe.model';
+import { Rating } from '../../../models/rating.model';
 
 type MockRecipeModel = {
   findAll: jest.Mock;
@@ -68,7 +69,14 @@ describe('RecipeService', () => {
       const result = await service.findAll();
 
       expect(mockRecipeModel.findAll).toHaveBeenCalledWith({
-        include: [User],
+        include: [
+          User,
+          {
+            model: Rating,
+            as: 'ratings',
+            include: [User],
+          },
+        ],
       });
       expect(result).toEqual(expectedRecipes);
     });
@@ -81,7 +89,14 @@ describe('RecipeService', () => {
       const result = await service.findById('1');
 
       expect(mockRecipeModel.findByPk).toHaveBeenCalledWith('1', {
-        include: [User],
+        include: [
+          User,
+          {
+            model: Rating,
+            as: 'ratings',
+            include: [User],
+          },
+        ],
       });
       expect(result).toEqual(mockRecipe);
     });
@@ -125,7 +140,14 @@ describe('RecipeService', () => {
         userId,
       });
       expect(mockRecipeModel.findByPk).toHaveBeenCalledWith(2, {
-        include: [User],
+        include: [
+          User,
+          {
+            model: Rating,
+            as: 'ratings',
+            include: [User],
+          },
+        ],
       });
     });
   });
@@ -151,7 +173,14 @@ describe('RecipeService', () => {
         cookingTime: 35,
       });
       expect(mockRecipeModel.findByPk).toHaveBeenNthCalledWith(2, '1', {
-        include: [User],
+        include: [
+          User,
+          {
+            model: Rating,
+            as: 'ratings',
+            include: [User],
+          },
+        ],
       });
     });
 

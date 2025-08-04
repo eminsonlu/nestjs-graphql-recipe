@@ -7,8 +7,10 @@ import {
   AutoIncrement,
   ForeignKey,
   BelongsTo,
+  HasMany,
 } from 'sequelize-typescript';
 import { User } from './user.model';
+import { Rating } from './rating.model';
 
 @Table({
   tableName: 'recipes',
@@ -50,4 +52,15 @@ export class Recipe extends Model {
 
   @BelongsTo(() => User)
   declare user: User;
+
+  @HasMany(() => Rating)
+  declare ratings: Rating[];
+
+  get averageRating(): number | null {
+    if (!this.ratings || this.ratings.length === 0) {
+      return null;
+    }
+    const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
+    return Math.round(sum / this.ratings.length);
+  }
 }

@@ -7,6 +7,7 @@ import { Recipe } from '../../models/recipe.model';
 import { CreateRecipeDto, UpdateRecipeDto } from './dto';
 import { User } from '../../models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
+import { Rating } from '../../models/rating.model';
 
 @Injectable()
 export class RecipeService {
@@ -17,13 +18,27 @@ export class RecipeService {
 
   async findAll(): Promise<Recipe[]> {
     return this.recipeModel.findAll({
-      include: [User],
+      include: [
+        User,
+        {
+          model: Rating,
+          as: 'ratings',
+          include: [User],
+        },
+      ],
     });
   }
 
   async findById(id: string): Promise<Recipe | null> {
     return this.recipeModel.findByPk(id, {
-      include: [User],
+      include: [
+        User,
+        {
+          model: Rating,
+          as: 'ratings',
+          include: [User],
+        },
+      ],
     });
   }
 
@@ -31,7 +46,14 @@ export class RecipeService {
     const recipeData = { ...input, userId };
     const recipe = await this.recipeModel.create(recipeData);
     return this.recipeModel.findByPk(recipe.id, {
-      include: [User],
+      include: [
+        User,
+        {
+          model: Rating,
+          as: 'ratings',
+          include: [User],
+        },
+      ],
     });
   }
 
@@ -64,7 +86,14 @@ export class RecipeService {
 
     await recipe.update(updateData);
     return await this.recipeModel.findByPk(id, {
-      include: [User],
+      include: [
+        User,
+        {
+          model: Rating,
+          as: 'ratings',
+          include: [User],
+        },
+      ],
     });
   }
 

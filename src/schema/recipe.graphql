@@ -8,6 +8,8 @@ type Recipe {
   user: User!
   userId: ID!
   createdAt: String!
+  ratings: [Rating]
+  averageRating: Int
 }
 
 input CreateRecipeInput {

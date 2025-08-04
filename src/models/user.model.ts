@@ -9,6 +9,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { Recipe } from './recipe.model';
+import { Rating } from './rating.model';
 
 @Table({
   tableName: 'users',
@@ -54,6 +55,6 @@ export class User extends Model {
   @HasMany(() => Recipe)
   declare recipes: Recipe[];
 
-  declare createdAt: Date;
-  declare updatedAt: Date;
+  @HasMany(() => Rating)
+  declare ratings: Rating[];
 }

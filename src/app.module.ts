@@ -8,6 +8,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { RecipeModule } from './modules/recipe/recipe.module';
 import { Request } from 'express';
 import { AuthModule } from './modules/auth/auth.module';
+import { RatingModule } from './modules/rating/rating.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     RecipeModule,
     AuthModule,
+    RatingModule,
   ],
   controllers: [],
   providers: [RecipeResolver],

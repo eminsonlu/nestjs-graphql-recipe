@@ -1,0 +1,17 @@
+type Rating {
+  id: ID!
+  rating: Int!
+  comment: String
+  createdAt: String!
+  user: User!
+}
+
+input CreateRatingInput {
+  rating: Int!
+  comment: String
+}
+
+extend type Mutation {
+  createRating(recipeId: ID!, input: CreateRatingInput): Rating!
+  deleteRating(recipeId: ID!): Boolean!
+}
