@@ -57,11 +57,18 @@ $ pnpm run test
 
 ```
 src/
-├── auth/           # Authentication module
-├── users/          # User management
-├── recipes/        # Recipe management
-├── common/         # Shared utilities and decorators
-└── main.ts         # Application entry point
+├── app.module.ts           # Main application module
+├── main.ts                 # Application entry point
+├── graphql.ts              # GraphQL configuration
+├── common/                 # Shared utilities and common functionality
+├── config/                 # Configuration files
+├── models/                 # Data models
+├── modules/                # Feature modules
+├── schema/                 # GraphQL schema definitions
+│   ├── base.graphql        # Base GraphQL schema
+│   ├── recipe.graphql      # Recipe schema
+│   └── user.graphql        # User schema
+└── shared/                 # Shared resources and utilities
 ```
 
 ## License
