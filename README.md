@@ -11,6 +11,7 @@ This is a [NestJS](https://github.com/nestjs/nest) Recipe management application
 - 📊 GraphQL API with type-safe queries and mutations
 - 🧪 Comprehensive test coverage
 - 🏗️ Clean architecture with TDD approach
+- ⭐ Recipe rating system
 
 ## Tech Stack
 
@@ -66,8 +67,6 @@ src/
 ├── modules/                # Feature modules
 ├── schema/                 # GraphQL schema definitions
 │   ├── base.graphql        # Base GraphQL schema
-│   ├── recipe.graphql      # Recipe schema
-│   └── user.graphql        # User schema
 └── shared/                 # Shared resources and utilities
 ```
 
